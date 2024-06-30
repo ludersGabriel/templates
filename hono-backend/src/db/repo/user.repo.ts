@@ -51,4 +51,12 @@ export class UserRepo {
       .array(userSchemas.userModelSchema)
       .parse(await repo.insert(userTable).values(users).returning())
   }
+
+  async uploadUsers(users: UserInput[]): Promise<UserModel[]> {
+    return await db.transaction(async (tx) => {
+      return z
+        .array(userSchemas.userModelSchema)
+        .parse(await tx.insert(userTable).values(users).returning())
+    })
+  }
 }

@@ -5,8 +5,8 @@ import { userRouter } from './routes/user.routes'
 import { authRouter } from './routes/auth.route'
 import { jwt } from 'hono/jwt'
 import env from './env'
-import { fileRouter } from './routes/upload.route'
 import type { AuthPayload } from './db/repo/auth.repo'
+import { uploaderRouter } from './routes/uploader.route'
 
 export type Variables = {
   jwtPayload: AuthPayload
@@ -23,12 +23,12 @@ app.use(
   })
 )
 
-app
-  .basePath('/')
-  .route('auth', authRouter)
-  .route('/entry', fileRouter)
+app.basePath('/').route('auth', authRouter)
 
-app.basePath('/api').route('users', userRouter)
+app
+  .basePath('/api')
+  .route('users', userRouter)
+  .route('uploader', uploaderRouter)
 
 app.get('/', (c) => {
   return c.text('Hello Hono!')

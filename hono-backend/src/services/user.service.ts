@@ -27,10 +27,7 @@ export class UserService {
   async create(user: UserInput, tx?: db): Promise<UserModel> {
     user.password = hashPassword(user.password)
 
-    return this.repo.create(
-      userSchemas.userInputSchema.parse(user),
-      tx
-    )
+    return this.repo.create(user, tx)
   }
 
   async createMany(
@@ -45,5 +42,13 @@ export class UserService {
       z.array(userSchemas.userInputSchema).parse(users),
       tx
     )
+  }
+
+  async uploadUsers(users: UserInput[]): Promise<UserModel[]> {
+    for (const user of users) {
+      user.password = hashPassword(user.password)
+    }
+
+    return this.repo.uploadUsers(users)
   }
 }

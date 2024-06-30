@@ -38,7 +38,9 @@ export const userRouter = new Hono<{
     zValidator('json', userSchemas.userInputSchema),
     async (c) => {
       try {
-        const input = await c.req.valid('json')
+        const input = userSchemas.userInputSchema.parse(
+          await c.req.valid('json')
+        )
 
         const user = userSchemas.userDtoSchema.parse(
           await service.create(input)
