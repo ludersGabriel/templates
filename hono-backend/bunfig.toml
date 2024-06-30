@@ -1,0 +1,2 @@
+preload = ["./src/preload.ts"]
+loglevel = "debug"
