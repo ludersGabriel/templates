@@ -1,23 +1,13 @@
 import { UploaderService } from '@/services/uploader.service'
-import { Hono } from 'hono'
 import Container from 'typedi'
-import type { Variables } from '..'
-import { bodyLimit } from 'hono/body-limit'
 import { z } from 'zod'
 import { userSchemas, type UserInput } from '@/db/schema/user.model'
+import { honoWithJwt } from '..'
 
 const service = Container.get(UploaderService)
 
-export const uploaderRouter = new Hono<{
-  Variables: Variables
-}>().post(
+export const uploaderRouter = honoWithJwt().post(
   '/users',
-  bodyLimit({
-    maxSize: 50 * 1024 * 1024, // 500 mb
-    onError: (c) => {
-      return c.text('overflow', 413)
-    },
-  }),
   async (c) => {
     const body = await c.req.parseBody()
     const file = body['file']

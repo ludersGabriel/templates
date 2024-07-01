@@ -1,27 +1,13 @@
 import { userSchemas } from '@/db/schema/user.model'
 import { UserService } from '@/services/user.service'
-import { Hono } from 'hono'
 import { Container } from 'typedi'
 import { z } from 'zod'
-import type { Variables } from '..'
 import { zValidator } from '@hono/zod-validator'
+import { honoWithJwt } from '..'
 
 const service = Container.get(UserService)
 
-export const userRouter = new Hono<{
-  Variables: Variables
-}>()
-  .get('/', async (c) => {
-    const p = c.get('jwtPayload')
-
-    console.log({ p })
-
-    const users = await service.findMany()
-
-    const ret = z.array(userSchemas.userDtoSchema).parse(users)
-
-    return c.json({ users: ret })
-  })
+export const userRouter = honoWithJwt()
   .get('/:username', async (c) => {
     try {
       const username = c.req.param('username')
@@ -32,6 +18,17 @@ export const userRouter = new Hono<{
     } catch {
       return c.notFound()
     }
+  })
+  .get('/users', async (c) => {
+    const p = c.get('jwtPayload')
+
+    console.log({ p })
+
+    const users = await service.findMany()
+
+    const ret = z.array(userSchemas.userDtoSchema).parse(users)
+
+    return c.json({ users: ret })
   })
   .post(
     '/create',
