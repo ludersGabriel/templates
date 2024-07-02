@@ -1,3 +1,6 @@
+Install bun
+https://bun.sh/docs/installation
+
 To install dependencies:
 ```sh
 bun install
