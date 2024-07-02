@@ -15,6 +15,7 @@
 4. Get the container up and running:
    ```sh
     docker compose up
+    cp .env.example .env
    ```
 
 5. set dev db
