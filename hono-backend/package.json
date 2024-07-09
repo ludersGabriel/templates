@@ -5,7 +5,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "cross-env DB_MIGRATING=true bun run src/db/migrate.ts",
     "db:seed": "cross-env DB_SEEDING=true bun run src/db/seed.ts",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "route:test": "bun db:seed && bun test"
   },
   "dependencies": {
     "@hono/zod-validator": "^0.2.2",

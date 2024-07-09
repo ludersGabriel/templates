@@ -10,12 +10,15 @@ import { uploaderRouter } from './routes/uploader.route'
 import { prettyJSON } from 'hono/pretty-json'
 import { cors } from 'hono/cors'
 import { bodyLimit } from 'hono/body-limit'
+import { clientRouter } from './routes/client.route'
+import { HttpStatus, createApexError } from './services/error.service'
+import { creditCardRouter } from './routes/credit-card.route'
 
 const app = new Hono()
 
 app.use('*', logger())
 app.use('*', prettyJSON())
-app.use('/api/*', cors())
+app.use('*', cors())
 app.use(
   '/api/*',
   jwt({
@@ -27,7 +30,16 @@ app.use(
   bodyLimit({
     maxSize: 50 * 1024 * 1024, // 50mb
     onError(c) {
-      return c.json('overflow', 413)
+      return c.json(
+        createApexError({
+          status: 'error',
+          message: 'File is too big. Current limit is 50mb',
+          code: HttpStatus.PAYLOAD_TOO_LARGE,
+          path: c.req.routePath,
+          suggestion: 'Reduce the size of your file and try again',
+        }),
+        413
+      )
     },
   })
 )
@@ -36,9 +48,12 @@ app.get('/', (c) => c.json({ message: 'sv running on /api' }))
 
 app.route('auth', authRouter)
 
-const api = app.basePath('/api')
-api.route('/user', userRouter)
-api.route('/upload', uploaderRouter)
+app
+  .basePath('/api')
+  .route('/user', userRouter)
+  .route('/client', clientRouter)
+  .route('/credit-card', creditCardRouter)
+  .route('/upload', uploaderRouter)
 
 export default app
 export type AppType = typeof app

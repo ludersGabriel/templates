@@ -5,7 +5,7 @@ import * as schema from '@/db/schema'
 import * as seeds from '@/db/seeds'
 
 if (!env.DB_SEEDING) {
-  throw new Error('You must sed DB_SEEDING to "true" when seeding')
+  throw new Error('You must set DB_SEEDING to "true" when seeding')
 }
 
 async function resetTable(db: db, table: Table) {
@@ -21,5 +21,7 @@ for (const table of schema.tables) {
 }
 
 await seeds.userSeed(db)
+await seeds.clientSeed(db)
+await seeds.creditCardSeed(db)
 
 await connection.end()

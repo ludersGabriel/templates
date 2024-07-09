@@ -10,12 +10,12 @@
 3. To install dependencies:
    ```sh
     bun install
+    cp .env.example .env
    ```
 
 4. Get the container up and running:
    ```sh
     docker compose up
-    cp .env.example .env
    ```
 
 5. set dev db

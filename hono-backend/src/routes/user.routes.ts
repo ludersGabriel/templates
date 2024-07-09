@@ -35,9 +35,7 @@ export const userRouter = honoWithJwt()
     zValidator('json', userSchemas.userInputSchema),
     async (c) => {
       try {
-        const input = userSchemas.userInputSchema.parse(
-          await c.req.valid('json')
-        )
+        const input = await c.req.valid('json')
 
         const user = userSchemas.userDtoSchema.parse(
           await service.create(input)

@@ -3,13 +3,13 @@ services:
     image: postgres
     restart: always
     environment:
-      POSTGRES_DB: templatedb
+      POSTGRES_DB: apex_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
     networks:
-      - tag_network
+      - apex_network
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -17,4 +17,4 @@ volumes:
   postgres_data:
 
 networks:
-  tag_network:
+  apex_network:

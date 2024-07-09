@@ -11,11 +11,9 @@ import { eq } from 'drizzle-orm'
 @Service()
 export class UserRepo {
   async findMany(): Promise<UserModel[]> {
-    return z.array(userSchemas.userModelSchema).parse(
-      await db.query.userTable.findMany({
-        limit: 100,
-      })
-    )
+    return z
+      .array(userSchemas.userModelSchema)
+      .parse(await db.query.userTable.findMany())
   }
 
   async findByUsername(
