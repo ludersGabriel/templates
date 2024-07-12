@@ -1,0 +1,29 @@
+export type AlunoMatr = {
+  ID_CURSO_ALUNO: number
+  MATR_ALUNO: string
+  ID_VERSAO_CURSO: number
+  NOME_ALUNO: string
+  COD_CURSO: string
+  NOME_CURSO: string
+  NUM_VERSAO: string
+  ID_CURRIC_ALUNO: string
+  ID_ATIV_CURRIC: string
+  ANO: string
+  MEDIA_FINAL: string
+  SITUACAO_ITEM: string
+  PERIODO: string
+  SITUACAO: string
+  COD_ATIV_CURRIC: string
+  NOME_ATIV_CURRIC: string
+  CREDITOS: number
+  CH_TOTAL: number
+  ID_LOCAL_DISPENSA: string
+  CONCEITO: string
+  ID_NOTA: number
+  ID_ESTRUTURA_CUR: string
+  DESCR_ESTRUTURA: string
+  FREQUENCIA: string
+  MEDIA_CREDITO: string
+  SITUACAO_CURRICULO: string
+  SIGLA: string
+}

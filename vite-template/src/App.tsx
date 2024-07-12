@@ -1,65 +1,36 @@
-import React, { useState } from 'react'
-import { getAlunos } from './dataLoader'
-import { ALUNO } from 'types/alunos'
+import { useState } from 'react'
 import './App.css'
+import StudentTable from './components/student-table.component'
 
 function App() {
-  const [selectedDisciplina, setSelectedDisciplina] =
-    useState<ALUNO | null>(null)
+  const [grr, setGrr] = useState<string>('GRR00000000')
 
-  const data = getAlunos()
-
-  const getColor = (situacao: any) => {
-    switch (situacao._text) {
-      case 'Aprovado':
-        return 'green'
-      case 'Reprovado':
-        return 'red'
-      case 'Matriculado':
-        return 'blue'
-      case 'Equivalência':
-        return 'yellow'
-      default:
-        return 'white'
-    }
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    setGrr(e.target.value)
   }
 
   return (
-    <div className='App'>
-      <header className='App-header'>
-        <h1>Grade Curricular</h1>
-        <input type='text' placeholder='Digite o RA do aluno' />
+    <div className='app-container'>
+      <header>
+        <p>Visualizeitor (T4)</p>
       </header>
-      <div className='grade-curricular'>
-        {data &&
-          data.map((aluno, index) => (
-            <div
-              key={index}
-              className='disciplina'
-              style={{
-                backgroundColor: getColor(aluno.SITUACAO_ITEM),
-              }}
-              onClick={() => setSelectedDisciplina(aluno)}
-            >
-              {aluno.COD_ATIV_CURRIC._text}
-            </div>
-          ))}
-      </div>
-      {selectedDisciplina && (
-        <div className='popup'>
-          <h2>{selectedDisciplina.NOME_ATIV_CURRIC._text}</h2>
-          <p>Código: {selectedDisciplina.COD_ATIV_CURRIC._text}</p>
-          <p>
-            Última vez cursada: {selectedDisciplina.ANO._text}/
-            {selectedDisciplina.PERIODO._text}
-          </p>
-          <p>Nota: {selectedDisciplina.MEDIA_FINAL._text}</p>
-          <p>Frequência: {selectedDisciplina.FREQUENCIA._text}</p>
-          <button onClick={() => setSelectedDisciplina(null)}>
-            Fechar
-          </button>
-        </div>
-      )}
+
+      <main>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <input
+            onChange={onChange}
+            type='text'
+            placeholder='Matrícula'
+            value={grr}
+          />
+        </form>
+        <StudentTable grr={grr} />
+      </main>
+
+      <footer>
+        <p>Gabriel Lüders - GRR20190172</p>
+      </footer>
     </div>
   )
 }
